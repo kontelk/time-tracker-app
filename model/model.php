@@ -37,6 +37,23 @@ function get_all_projects()
     }
 }
 
+function get_project($id)
+{
+    try {
+        global $connection;
+
+        $sql =  'SELECT * FROM projects WHERE id = ?';
+        $project = $connection->prepare($sql);
+        $project->bindValue(1, $id, PDO::PARAM_INT);
+        $project->execute();
+
+        return $project->fetch();
+    } catch (PDOException $exception) {
+        echo $sql . "<br>" . $exception->getMessage();
+        exit;
+    }
+}
+
 function get_all_projects_count()
 {
     try {
@@ -54,18 +71,26 @@ function get_all_projects_count()
     }
 }
 
-function add_project($title, $category)
+function add_project($title, $category, $id)
 {
     try {
         global $connection;
 
-        $sql =  'INSERT INTO projects(title, category) VALUES(?, ?)';
+        if ($id) {
+            $sql = 'UPDATE projects SET title = ?, category = ? WHERE id = ?';
+        } else {
+            $sql =  'INSERT INTO projects(title, category) VALUES(?, ?)';
+        }
 
         $statement = $connection->prepare($sql);
         $new_project = array($title, $category);
 
-        $affectedLines = $statement->execute($new_project);
+        if ($id) {
+            $new_project = array($title, $category, $id);
+        }
 
+        $affectedLines = $statement->execute($new_project);
+        // $statement->debugDumpParams($statement);
         return $affectedLines;
     } catch (PDOException $exception) {
         echo $sql . "<br>" . $exception->getMessage();
@@ -74,6 +99,26 @@ function add_project($title, $category)
 }
 
 // --- TASKS ---
+/**
+ * @param int id
+ */
+function delete_task($id)
+{
+    try {
+        global $connection;
+
+        $sql =  'DELETE FROM tasks WHERE id = ?';
+        $task = $connection->prepare($sql);
+        $task->bindValue(1, $id, PDO::PARAM_INT);
+        $task->execute();
+
+        return true;
+    } catch (PDOException $exception) {
+        echo $sql . "<br>" . $exception->getMessage();
+        exit;
+    }
+}
+
 function get_all_tasks($filter = null)
 {
     try {

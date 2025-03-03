@@ -20,7 +20,14 @@ require "../controller/common.php";
     <ul>
         <?php foreach ($tasks as $task) : ?>
             <li>
+
                 <?php echo escape($task["title"]) ?>
+                <form method="post" style="display: inline-block; vertical-align: middle;">
+                    <input type="hidden" value="<?php echo $task["id"]; ?>" name="delete">
+                    <input style="border: 0;" type="image" src="../public/img/remove.png" width="20px" alt="Delete"
+                        title="Delete task">
+                </form>
+
             </li>
         <?php endforeach; ?>
     </ul>
