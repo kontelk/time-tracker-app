@@ -23,6 +23,11 @@ require '../controller/common.php';
                 <a href="../controller/project.php?id= <?php echo $project['id']; ?>">
                     <?php echo escape($project["title"]) ?>
                 </a>
+                <form method="post" style="display: inline-block; vertical-align: middle;">
+                    <input type="hidden" value="<?php echo $project["id"]; ?>" name="delete">
+                    <input style="border: 0;" type="image" src="../public/img/remove.png" width="20px" alt="Delete"
+                        title="Delete project">
+                </form>
             </li>
         <?php endforeach; ?>
     </ul>
