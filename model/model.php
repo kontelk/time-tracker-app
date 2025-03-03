@@ -139,6 +139,23 @@ function delete_task($id)
     }
 }
 
+function get_task($id)
+{
+    try {
+        global $connection;
+
+        $sql =  'SELECT * FROM tasks WHERE id = ?';
+        $task = $connection->prepare($sql);
+        $task->bindValue(1, $id, PDO::PARAM_INT);
+        $task->execute();
+
+        return $task->fetch();
+    } catch (PDOException $exception) {
+        echo $sql . "<br>" . $exception->getMessage();
+        exit;
+    }
+}
+
 function get_all_tasks($filter = null)
 {
     try {
@@ -209,26 +226,38 @@ function get_all_tasks_count()
     }
 }
 
-function add_task($id, $title, $date, $time)
+function add_task($id, $title, $date, $time, $project_id)
 {
     try {
         global $connection;
 
-        $new_task = array(
-            'project_id' => $id,
-            'title'      => $title,
-            'date_task'  => $date,
-            'time_task'  => $time
-        );
-
-        $sql = sprintf(
-            "INSERT INTO %s (%s) VALUES (%s)",
-            "tasks",
-            implode(",", array_keys($new_task)),
-            ":" . implode(", :", array_keys($new_task))
-        );
-
+        if ($id) {
+            $sql = "UPDATE tasks SET title = ?, date_task = ?, time_task = ?, project_id = ? WHERE id = ?";
+        } else {
+            $sql = "INSERT INTO tasks (title, date_task, time_task, project_id) VALUES (?, ?, ?, ?)";
+        }
         $statement = $connection->prepare($sql);
+        $new_task = array($title, $date, $time, $project_id);
+        if ($id) {
+            $new_task = array($title, $date, $time, $project_id, $id);
+        }
+
+
+        // $new_task = array(
+        //     'project_id' => $project_id,
+        //     'title'      => $title,
+        //     'date_task'  => $date,
+        //     'time_task'  => $time
+        // );
+
+        // $sql = sprintf(
+        //     "INSERT INTO %s (%s) VALUES (%s)",
+        //     "tasks",
+        //     implode(",", array_keys($new_task)),
+        //     ":" . implode(", :", array_keys($new_task))
+        // );
+
+        // $statement = $connection->prepare($sql);
         $affectedLines = $statement->execute($new_task);
 
         return $affectedLines;

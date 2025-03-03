@@ -2,7 +2,7 @@
 $title = 'Reports';
 
 ob_start();
-require 'nav.php';
+require "views/nav.php";
 ?>
 
 <div class="container">
@@ -131,7 +131,6 @@ require 'nav.php';
     </table>
 
 </div>
-
 
 <?php
 $content = ob_get_clean();

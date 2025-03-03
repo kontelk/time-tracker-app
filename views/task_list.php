@@ -2,8 +2,7 @@
 $title = 'Tasks list';
 
 ob_start();
-require "nav.php";
-require "../controller/common.php";
+require "views/nav.php";
 ?>
 
 <div class="container">
@@ -13,7 +12,7 @@ require "../controller/common.php";
     <?php if ($taskCount == 0) { ?>
         <div>
             <p>You have not yet added any project </p>
-            <p><a href='../controller/task.php'>Add task</a></p>
+            <p><a href="/tasks/add">Add task</a></p>
         </div>
     <?php } ?>
 
@@ -21,10 +20,12 @@ require "../controller/common.php";
         <?php foreach ($tasks as $task) : ?>
             <li>
 
-                <?php echo escape($task["title"]) ?>
+                <a href=" ./add?id=<?php echo $task['id']; ?>">
+                    <?php echo escape($task["title"]) ?>
+                </a>
                 <form method="post" style="display: inline-block; vertical-align: middle;">
                     <input type="hidden" value="<?php echo $task["id"]; ?>" name="delete">
-                    <input style="border: 0;" type="image" src="../public/img/remove.png" width="20px" alt="Delete"
+                    <input style="border: 0;" type="image" src="../public/img/remove.png" width="15px" alt="Delete"
                         title="Delete task">
                 </form>
 

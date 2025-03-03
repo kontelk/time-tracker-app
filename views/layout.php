@@ -12,6 +12,8 @@
 
 <body>
     <?php echo $content ?>
+
+    <script src="./public/js/app.js"></script>
 </body>
 
 </html>

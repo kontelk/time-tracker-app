@@ -1,5 +1,5 @@
 <?php
-require_once "../model/model.php";
+require_once "./model/model.php";
 
 $projects = get_all_projects();
 $projectCount =  get_all_projects_count();
@@ -18,4 +18,4 @@ if (isset($_GET['msg'])) {
     $error_message = $_GET['msg'];
 }
 
-require "../view/project_list.php";
+require "./views/project_list.php";

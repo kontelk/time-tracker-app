@@ -1,25 +1,18 @@
 <?php
-
-$title = 'Add Project';
-if (!empty($_GET['id'])) {
-    $title = "Update project";
-}
+$title = (!empty($_GET['id'])) ? "Update Project" : "Add Project";
 
 ob_start();
-require "nav.php";
-
+require "views/nav.php";
 ?>
 
 <div class="container">
 
     <h1><?php echo $title ?></h1>
-
     <?php
     // Print error message if any or confirmation message
     if (isset($error_message)) {
         echo "<p class='message_error'>$error_message</p>";
     }
-
     if (isset($confirm_message)) {
         echo "<p class='message_ok'>$confirm_message</p>";
     }
@@ -38,32 +31,32 @@ require "nav.php";
 
         <select name="category" id="category" required>
             <option value="">Select a category</option>
-            <option value="Professional" <?php 
-                    if ($category == "Professional") {
-                        echo ' selected';
-                    }
-                ?>>
+            <option value="Professional" <?php
+                                            if ($category == "Professional") {
+                                                echo ' selected';
+                                            }
+                                            ?>>
                 Professional
             </option>
             <option value="Personal" <?php
-                    if ($category == "Personal") {
-                        echo ' selected';
-                    }
-                ?>>
+                                        if ($category == "Personal") {
+                                            echo ' selected';
+                                        }
+                                        ?>>
                 Personal
             </option>
             <option value="Charity" <?php
-                    if ($category == "Charity") {
-                        echo ' selected';
-                    }
-                    ?>>
+                                    if ($category == "Charity") {
+                                        echo ' selected';
+                                    }
+                                    ?>>
                 Charity
             </option>
         </select>
 
         <?php if (!empty($id)) { ?>
 
-        <input type="hidden" name="id" value="<?php echo $id ?>" />
+            <input type="hidden" name="id" value="<?php echo $id ?>" />
 
         <?php } ?>
         <input type="submit" name="submit" value="<?php echo (isset($id) and (!empty($id))) ? "Update" : "Add";  ?>">

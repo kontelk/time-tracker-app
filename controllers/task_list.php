@@ -1,5 +1,5 @@
 <?php
-require_once "../model/model.php";
+require_once "./model/model.php";
 
 $tasks = get_all_tasks();
 $taskCount = get_all_tasks_count();
@@ -18,4 +18,4 @@ if (isset($_GET['msg'])) {
     $error_message = $_GET['msg'];
 }
 
-require "../view/task_list.php";
+require "./views/task_list.php";

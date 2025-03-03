@@ -1,12 +1,14 @@
 <?php
-require_once "../model/model.php";
-require "common.php";
+require_once "./model/model.php";
+
+//$rootURI = getRootURI();
 
 $project_title = $category = '';
 
 if (isset($_GET['id'])) {
     list($id, $project_title, $category) = get_project($_GET['id']);
 }
+
 if (isset($_POST['submit'])) {
     $id = null;
     if (isset($_POST['id'])) {
@@ -18,9 +20,11 @@ if (isset($_POST['submit'])) {
     if (empty($title) || empty($category)) {
         $error_message = "Title or category empty";
     } else {
+
         if (titleExists("projects", $title)) {
             $error_message = "I'm sorry, but looks like \"" . escape($title) . "\" already exists";
         } else {
+
             if (add_project($title, $category, $id)) {
                 header('Refresh:4; url=project_list.php');
                 if (!empty($id)) {
@@ -35,4 +39,4 @@ if (isset($_POST['submit'])) {
     }
 }
 
-require "../view/project.php";
+require "./views/project.php";
